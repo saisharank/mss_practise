@@ -22,7 +22,7 @@ public class InvoiceService {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-
+	
 	public Map<String, String> insertItems(Item item) {
 
 		
@@ -150,6 +150,31 @@ public Map<String, String> insertCustomers(Customer customer) {
 		
 		return data;
 
+	}
+	public List login(Customer customer) {
+		String sql = "Select * from customer";
+		List data2=new ArrayList();
+		try {
+			List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+			dataList = jdbcTemplate.queryForList(sql);
+			String user=customer.getUsername();
+			String Password=customer.getPassword();
+			for(Map<String,Object> data:dataList) {
+				String checkUsername=(String)data.get("username");
+				String checkPassword=(String)data.get("password");
+				if(user.equals(checkUsername)&&(Password.equals(checkPassword))) {
+					String sqlupdate="update customer set loginstatus=true where username=? and password=?";
+					int i=jdbcTemplate.update(sqlupdate,user,Password);
+					 data2.add("suceess");
+					 return data2;
+				}
+			}
+			
+		}
+		catch(Exception e) {
+			
+		}
+		return data2;
 	}
 	public Map<String, String> updateCustomer(Customer customer) {
 		

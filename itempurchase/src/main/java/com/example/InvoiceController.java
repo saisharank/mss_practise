@@ -20,6 +20,7 @@ public class InvoiceController {
 	@Autowired
 	public InvoiceService service;
 	
+	
 	@PostMapping("/iteminsert")
 	public Map insertItems(@RequestBody Item item) {
 		Map additem = null;
@@ -104,5 +105,10 @@ public class InvoiceController {
 	@GetMapping("/invoicegetall")
 	public List invoicegetall(@RequestBody Invoice invoice) {
 		return service.invoicegetall();
+	}
+	@CrossOrigin
+	@GetMapping("/login")
+	public List login(@RequestBody Customer customer) {
+		return service.login(customer);
 	}
 }
